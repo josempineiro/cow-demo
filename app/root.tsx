@@ -8,6 +8,10 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import { Web3Provider } from "~/contexts/web3-provider";
+import { QueryClientProvider } from "~/contexts/query-client-provider";
+import { CowProvider } from "~/contexts/cow-provider";
+import { TotalSurplusLabel } from "~/components/total-surplus-label";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -23,10 +27,17 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
+        <Web3Provider>
+          <CowProvider>
+            <QueryClientProvider>
+              <TotalSurplusLabel />
+              <Outlet />
+              <ScrollRestoration />
+              <Scripts />
+              <LiveReload />
+            </QueryClientProvider>
+          </CowProvider>
+        </Web3Provider>
       </body>
     </html>
   );
