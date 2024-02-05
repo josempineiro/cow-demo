@@ -3,15 +3,11 @@ import { Address, TotalSurplus } from "@cowprotocol/cow-sdk";
 import { useCow } from "~/contexts/cow-provider";
 
 export type UseSurplusOptions = {
-  account: Address;
+  address: Address;
 };
 
 export function useTotalSurplus(
-  {
-    address,
-  }: {
-    address: Address;
-  },
+  { address }: UseSurplusOptions,
   options?: Omit<
     UseQueryOptions<TotalSurplus, Error, never>,
     "queryKey" | "queryFn"
