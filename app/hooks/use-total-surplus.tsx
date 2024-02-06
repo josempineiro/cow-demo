@@ -13,10 +13,10 @@ export function useTotalSurplus(
     "queryKey" | "queryFn"
   >
 ) {
-  const { orderBookApi } = useCow();
+  const { orderBookApi, chainId } = useCow();
   return useQuery<TotalSurplus, Error>({
     ...options,
-    queryKey: ["surplus", address],
+    queryKey: ["surplus", chainId, address],
     queryFn: () => orderBookApi.getTotalSurplus(address),
   });
 }

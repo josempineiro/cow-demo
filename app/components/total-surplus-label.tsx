@@ -13,5 +13,8 @@ export function TotalSurplusLabel() {
       </div>
     );
   }
-  return <div>totalSurplus: {data?.totalSurplus}</div>;
+  if (!data || data.totalSurplus === undefined) {
+    return <div>No surplus found</div>;
+  }
+  return <div>totalSurplus: {data.totalSurplus}</div>;
 }

@@ -17,10 +17,10 @@ export function useOrders(
     "queryKey" | "queryFn"
   >
 ) {
-  const { orderBookApi } = useCow();
+  const { orderBookApi, chainId } = useCow();
   return useQuery<EnrichedOrder[], Error>({
     ...options,
-    queryKey: ["orders", owner, offset, limit],
+    queryKey: ["orders", chainId, owner, offset, limit],
     queryFn: () =>
       orderBookApi.getOrders({
         owner,

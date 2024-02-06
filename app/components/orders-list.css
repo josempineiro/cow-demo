@@ -1,0 +1,11 @@
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.orders-list-item {
+  list-style: none;
+}

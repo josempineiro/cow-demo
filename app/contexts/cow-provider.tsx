@@ -4,6 +4,7 @@ import { useWeb3 } from "~/contexts/web3-provider";
 
 export type CowContextValue = {
   orderBookApi: OrderBookApi;
+  chainId: number;
 };
 
 export const CowContext = createContext<CowContextValue | undefined>(undefined);
@@ -32,6 +33,7 @@ export function CowProvider({ children }: CowContextProps) {
   return (
     <CowContext.Provider
       value={{
+        chainId,
         orderBookApi,
       }}
     >

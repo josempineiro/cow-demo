@@ -1,4 +1,4 @@
-import { useEffect, useRef, createContext, useContext, useState } from "react";
+import { useEffect, createContext, useContext, useState } from "react";
 import {
   Web3Provider as EtherWeb3Provider,
   ExternalProvider,
@@ -31,39 +31,34 @@ export type Web3ProviderProps = { children: React.ReactNode };
 export function Web3Provider({ children }: Web3ProviderProps) {
   const [chainId, setChainId] = useState(1);
   const [account, setAccount] = useState<string>("");
-  const provider = useRef<EtherWeb3Provider | null>(null);
+  const [provider, setProvider] = useState<EtherWeb3Provider>();
 
   useEffect(() => {
     if (window.ethereum) {
-      provider.current = new EtherWeb3Provider(window.ethereum);
+      setProvider(new EtherWeb3Provider(window.ethereum));
     }
   }, []);
 
   useEffect(() => {
-    if (provider.current) {
-      provider.current.on("network", (network) => {
+    if (provider) {
+      provider.on("network", (network) => {
         setChainId(+network.chainId);
       });
-      provider.current.listAccounts().then((accounts: string[]) => {
+      provider.listAccounts().then((accounts: string[]) => {
         setAccount(accounts[0]);
       });
     }
-  }, []);
-
-  const isUserConnected = !!account;
-  const isChainSelected = !!chainId;
+  }, [provider]);
 
   return (
     <Web3Context.Provider
       value={{
-        provider: provider.current as EtherWeb3Provider,
+        provider: provider as EtherWeb3Provider,
         chainId,
         account,
       }}
     >
-      <div>chainId: {chainId}</div>
-      <div>account: {account}</div>
-      {children}
+      {chainId && account && children}
     </Web3Context.Provider>
   );
 }

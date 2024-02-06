@@ -3,6 +3,7 @@ import { Address } from "@cowprotocol/cow-sdk";
 import { useOrders } from "~/hooks/use-orders";
 import { useSearchParams } from "@remix-run/react";
 import { useWeb3 } from "~/contexts/web3-provider";
+import { OrdersList } from "~/components/orders-list";
 
 export type OrdersQueryParams = {
   offset: number;
@@ -56,7 +57,7 @@ export default function Orders() {
   );
   return (
     <div>
-      <h1>Orders</h1>
+      <h1>My last orders</h1>
       <input
         value={ownerInput}
         onChange={(event) => setOwnerInput(event.target.value)}
@@ -110,25 +111,7 @@ export default function Orders() {
       {data && (
         <>
           {data.length === 0 && <p>No orders found</p>}
-          {data.length > 0 && (
-            <ul>
-              {data.map((order) => (
-                <li key={order.creationDate}>{order.creationDate}</li>
-              ))}
-            </ul>
-          )}
-          {data.length > 0 && (
-            <button
-              onClick={() => {
-                setOrdersQueryParams({
-                  ...{ offset: offset + 10, limit: limit },
-                  owner: ownerInput as Address,
-                });
-              }}
-            >
-              Load more
-            </button>
-          )}
+          {data.length > 0 && <OrdersList orders={data} />}
         </>
       )}
     </div>
